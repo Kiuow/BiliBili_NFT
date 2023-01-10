@@ -1,2 +1,5 @@
 # BiliBili_NFT
-B站一键获取钻石标头像
+原作者：[Aristorechina](https://github.com/aristorechina/NFT_auto)
+---
+1.优化了字体间距
+2.支持Windows7

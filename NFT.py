@@ -15,23 +15,23 @@ import sys
 # 声明
 # =================================================================================================
 os.system('title B站钻石标自定义头像')
-print("原作者：Aristore 转发请注明出处")
+print("原作者:Aristore   二次修改:Koilo   转发请注明出处")
 print()
 print("本程序仅供学习交流,请勿用于违规用途")
 print()
-print("注意：请将头像名称改为 face.jpg 否则将无法识别")
+images = input("请拖入头像到输入框：")
 print()
 
-
-#获取当前文件所在目录
+# 获取当前文件所在目录
 path = os.path.dirname(os.path.realpath(sys.argv[0]))
 new_path = "/".join(path.split("\\"))
 
 # 头像所在目录
-if os.path.exists("{}/face.jpg".format(new_path)):
-    FACE_PATH = "{}/face.jpg".format(new_path)
+if os.path.exists(images.format(new_path)):
+    FACE_PATH = images.format(new_path)
 else:
     pass
+
 
 # 登录模块
 # =================================================================================================
@@ -39,59 +39,60 @@ else:
 # 为请求参数进行 api 签名
 def tvsign(params, appkey='4409e2ce8ffd12b8', appsec='59b43e04ad6965f34319062b478f83dd'):
     params.update({'appkey': appkey})
-    params = dict(sorted(params.items())) # 重排序参数 key
-    query = urlencode(params) # 序列化参数
-    sign = md5((query+appsec).encode()).hexdigest() # 计算 api 签名
-    params.update({'sign':sign})
+    params = dict(sorted(params.items()))  # 重排序参数 key
+    query = urlencode(params)  # 序列化参数
+    sign = md5((query + appsec).encode()).hexdigest()  # 计算 api 签名
+    params.update({'sign': sign})
     return params
 
+
 # 获取二维码数据
-loginInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/auth_code',params=tvsign({
-    'local_id':'0',
-    'ts':int(time.time())
+loginInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/auth_code', params=tvsign({
+    'local_id': '0',
+    'ts': int(time.time())
 })).json()
 
 # 生成二维码
 creat_qrcode = qrcode.make(loginInfo['data']['url'])
 
-#保存二维码
+# 保存二维码
 with open('{}/qrcode.jpg'.format(new_path), 'wb') as f:
     creat_qrcode.save(f)
 print("已在本目录下生成登录二维码,用手机打开B站扫码登录")
 print()
 
-#校验
+# 校验
 while True:
-    pollInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/poll',params=tvsign({
-        'auth_code':loginInfo['data']['auth_code'],
-        'local_id':'0',
-        'ts':int(time.time())
+    pollInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/poll', params=tvsign({
+        'auth_code': loginInfo['data']['auth_code'],
+        'local_id': '0',
+        'ts': int(time.time())
     })).json()
-    
+
     if pollInfo['code'] == 0:
         loginData = pollInfo['data']
         print("登录成功！")
         print()
         break
-        
+
     elif pollInfo['code'] == -3:
         print('API校验密匙错误！')
         print()
         raise
-    
+
     elif pollInfo['code'] == -400:
         print('请求错误！')
         print()
         raise
-        
+
     elif pollInfo['code'] == 86038:
         print('二维码已失效！')
         print()
         raise
-        
+
     elif pollInfo['code'] == 86039:
         time.sleep(5)
-    
+
     else:
         print('未知错误！')
         print()
@@ -102,13 +103,15 @@ while True:
 UID = loginData['mid']
 ACCESS_KEY = loginData['access_token']
 
-#选择需要的卡片种类
-card_type = str(input("请选择您想使用的卡片种类后在下方输入对应ID后回车\n可选择ID：\n1：段艺璇-语音类型的数字藏品\n4：胶囊计划\n5：天官赐福\n7，8，9，12：音-福系列数字藏品\n14：三体\n"))
+# 选择需要的卡片种类
+card_type = str(input(
+    "请选择您想使用的卡片种类后在下方输入对应ID后回车\n可选择ID：\n1：段艺璇-语音类型的数字藏品\n4：胶囊计划\n5：天官赐福\n7，8，9，12：音-福系列数字藏品\n14：三体\n\n请输入您想使用的卡片ID："))
+print()
+
 
 # 更改头像模块
 # =================================================================================================
 class Crypto:
-
     APPKEY = '4409e2ce8ffd12b8'
     APPSECRET = '59b43e04ad6965f34319062b478f83dd'
 
@@ -166,7 +169,8 @@ def upload_image(file_path):
         print(response.text)
         return response.json()['data']['location']
 
-#获取卡片信息
+
+# 获取卡片信息
 def get_one_card_id():
     url = "https://api.bilibili.com/x/vas/nftcard/cardlist"
     params = SingableDict(
@@ -183,7 +187,7 @@ def get_one_card_id():
     response = requests.request("GET", url, params=params)
     data = response.json()
 
-    #遍历数据，得出可用结果输出供用户选择
+    # 遍历数据，得出可用结果输出供用户选择
 
     print("请在下列卡片中选择一个(卡片名称:对应卡片ID)")
     for round in data['data']['round_list']:
@@ -194,8 +198,9 @@ def get_one_card_id():
         for pre in data['data']['pre_list']:
             if pre['card_id_list']:
                 print(pre['card_name'], ":", pre['card_id_list'][0]['card_id'])
-    choose_card_id = input("在下方输入其ID后回车(如果没有就回车退出):\n")
+    choose_card_id = input("请输入ID后回车(如果没有回车会自动退出):\n")
     return choose_card_id
+
 
 def set_face(card_id):
     api = "https://api.bilibili.com/x/member/app/face/digitalKit/update"
@@ -227,14 +232,17 @@ def set_face(card_id):
     if response.json()['code'] != 0:
         print(response.json())
         return
+    print()
     print('设置头像成功, 请等待审核')
     print()
+
 
 def main():
     card_id = get_one_card_id()
     if not card_id:
         return
     set_face(card_id)
+
 
 if __name__ == '__main__':
     main()

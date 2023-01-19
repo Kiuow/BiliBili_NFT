@@ -15,4 +15,16 @@
 ## 安装依赖库
 ```bash
 pip install Pillow
+```  
+```bash
+pip install qrcode
+```  
+```bash
+pip install requests
+```  
+```bash
+pip install typing
+```  
+```bash
+pip requests_toolbelt
 ```

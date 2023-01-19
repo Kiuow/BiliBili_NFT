@@ -26,5 +26,5 @@ pip install requests
 pip install typing
 ```  
 ```bash
-pip requests_toolbelt
+pip install requests_toolbelt
 ```

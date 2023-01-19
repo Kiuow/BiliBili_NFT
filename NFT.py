@@ -15,7 +15,7 @@ import sys
 # 声明
 # =================================================================================================
 os.system('title 哔哩哔哩自定义数字头像 — Powered By Koilo')
-print("原作者:Aristore 修改:Koilo 转发请注明出处")
+print("原作者:Aristore,XiaoMiku01 修改:Koilo 转发请注明出处")
 print()
 print("本程序仅供学习交流，请勿用于违规用途")
 print()

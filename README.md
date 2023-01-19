@@ -11,3 +11,8 @@
 2.[Release](https://github.com/Kiuow/BiliBili_NFT/releases)下的打包程序仅支持 Windows 操作系统  
 3.上传的图形文件应为`正方形`，且应该小于`2MB`  
 4.可以从[这里](https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool)下载获取 **ACCESS_KEY** 的工具  
+
+## 安装依赖库
+```bash
+pip install Pillow
+```

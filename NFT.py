@@ -14,11 +14,13 @@ import sys
 
 # 声明
 # =================================================================================================
-os.system('title B站钻石标自定义头像')
-print("原作者:Aristore   二次修改:Koilo   转发请注明出处")
+os.system('title 哔哩哔哩自定义数字头像 — Powered By Koilo')
+print("原作者:Aristore 修改:Koilo 转发请注明出处")
 print()
-print("本程序仅供学习交流,请勿用于违规用途")
+print("本程序仅供学习交流，请勿用于违规用途")
 print()
+
+# 获取头像位置
 images = input("请拖入头像到输入框：")
 print()
 
@@ -32,76 +34,85 @@ if os.path.exists(images.format(new_path)):
 else:
     pass
 
-
-# 登录模块
-# =================================================================================================
-
-# 为请求参数进行 api 签名
-def tvsign(params, appkey='4409e2ce8ffd12b8', appsec='59b43e04ad6965f34319062b478f83dd'):
-    params.update({'appkey': appkey})
-    params = dict(sorted(params.items()))  # 重排序参数 key
-    query = urlencode(params)  # 序列化参数
-    sign = md5((query + appsec).encode()).hexdigest()  # 计算 api 签名
-    params.update({'sign': sign})
-    return params
-
-
-# 获取二维码数据
-loginInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/auth_code', params=tvsign({
-    'local_id': '0',
-    'ts': int(time.time())
-})).json()
-
-# 生成二维码
-creat_qrcode = qrcode.make(loginInfo['data']['url'])
-
-# 保存二维码
-with open('{}/qrcode.jpg'.format(new_path), 'wb') as f:
-    creat_qrcode.save(f)
-print("已在本目录下生成登录二维码,用手机打开B站扫码登录")
+print("输入“1”为密匙模式，输入“2”为二维码模式")
 print()
+choose_type = input("请选择工作模式：")
+print()
+if choose_type == "1":
+    UID = input(">>> UID：")
+    print()
+    ACCESS_KEY = input(">>> ACCESS_KEY：")
+    print()
+elif choose_type == "2":
+    # 登录模块
+    # =================================================================================================
 
-# 校验
-while True:
-    pollInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/poll', params=tvsign({
-        'auth_code': loginInfo['data']['auth_code'],
+    # 为请求参数进行 api 签名
+    def tvsign(params, appkey='4409e2ce8ffd12b8', appsec='59b43e04ad6965f34319062b478f83dd'):
+        params.update({'appkey': appkey})
+        params = dict(sorted(params.items()))  # 重排序参数 key
+        query = urlencode(params)  # 序列化参数
+        sign = md5((query + appsec).encode()).hexdigest()  # 计算 api 签名
+        params.update({'sign': sign})
+        return params
+
+
+    # 获取二维码数据
+    loginInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/auth_code', params=tvsign({
         'local_id': '0',
         'ts': int(time.time())
     })).json()
 
-    if pollInfo['code'] == 0:
-        loginData = pollInfo['data']
-        print("登录成功！")
-        print()
-        break
+    # 生成二维码
+    creat_qrcode = qrcode.make(loginInfo['data']['url'])
 
-    elif pollInfo['code'] == -3:
-        print('API校验密匙错误！')
-        print()
-        raise
+    # 保存二维码
+    with open('{}/qrcode.jpg'.format(new_path), 'wb') as f:
+        creat_qrcode.save(f)
+    print("已在本目录下生成登录二维码,用手机打开B站扫码登录")
+    print()
 
-    elif pollInfo['code'] == -400:
-        print('请求错误！')
-        print()
-        raise
+    # 校验
+    while True:
+        pollInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/poll', params=tvsign({
+            'auth_code': loginInfo['data']['auth_code'],
+            'local_id': '0',
+            'ts': int(time.time())
+        })).json()
 
-    elif pollInfo['code'] == 86038:
-        print('二维码已失效！')
-        print()
-        raise
+        if pollInfo['code'] == 0:
+            loginData = pollInfo['data']
+            print("登录成功！")
+            print()
+            UID = loginData['mid']
+            ACCESS_KEY = loginData['access_token']
+            break
 
-    elif pollInfo['code'] == 86039:
-        time.sleep(5)
+        elif pollInfo['code'] == -3:
+            print('API校验密匙错误！')
+            print()
+            raise
 
-    else:
-        print('未知错误！')
-        print()
-        raise
+        elif pollInfo['code'] == -400:
+            print('请求错误！')
+            print()
+            raise
 
-# 返回数据
+        elif pollInfo['code'] == 86038:
+            print('二维码已失效！')
+            print()
+            raise
 
-UID = loginData['mid']
-ACCESS_KEY = loginData['access_token']
+        elif pollInfo['code'] == 86039:
+            time.sleep(5)
+
+        else:
+            print('未知错误！')
+            print()
+            raise
+else:
+    input("输入序号不正确，按任意键退出")
+    exit()
 
 # 选择需要的卡片种类
 card_type = str(input(

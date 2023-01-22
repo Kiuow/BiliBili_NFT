@@ -1,0 +1,6 @@
+Pillow
+qrcode
+requests
+typing
+requests_toolbelt
+qrcode_terminal

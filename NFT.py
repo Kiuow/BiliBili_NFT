@@ -1,7 +1,9 @@
-#!/usr/bin/python 
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import qrcode
+import qrcode_terminal
+import json
 import time
 import requests
 from urllib.parse import urlencode
@@ -15,35 +17,26 @@ import sys
 # 声明
 # =================================================================================================
 os.system('title 哔哩哔哩自定义数字头像 — Powered By Koilo')
-print("原作者:Aristore,XiaoMiku01 修改:Koilo 转发请注明出处")
+print("作者：Koilo   转发请标明出处")
 print()
 print("本程序仅供学习交流，请勿用于违规用途")
-print()
-
-# 获取头像位置
-images = input("请拖入头像到输入框：")
 print()
 
 # 获取当前文件所在目录
 path = os.path.dirname(os.path.realpath(sys.argv[0]))
 new_path = "/".join(path.split("\\"))
 
-# 头像所在目录
-if os.path.exists(images.format(new_path)):
-    FACE_PATH = images.format(new_path)
-else:
-    pass
 
-print("输入“1”为密匙模式，输入“2”为二维码模式")
+
+print("输入“1”为二维码登录\n输入“2”为链接登录\n输入“3”为密匙登录\n输入“4”获取 ACCESS_KEY\n输入“5”查看参考的相关仓库")
 print()
-choose_type = input("请选择工作模式：")
+choose_type = input("请输入数字序号：")
 print()
-if choose_type == "1":
-    UID = input(">>> UID：")
+if choose_type == "1" or choose_type == "2" or choose_type == "3":
+    # 获取头像位置
+    images = input("请拖入头像到输入框：")
     print()
-    ACCESS_KEY = input(">>> ACCESS_KEY：")
-    print()
-elif choose_type == "2":
+if choose_type == "1" or choose_type == "2" or choose_type == "4":
     # 登录模块
     # =================================================================================================
 
@@ -63,22 +56,41 @@ elif choose_type == "2":
         'ts': int(time.time())
     })).json()
 
-    # 生成二维码
-    creat_qrcode = qrcode.make(loginInfo['data']['url'])
+    if choose_type == "1":
+        # 生成二维码
+        creat_qrcode = qrcode.make(loginInfo['data']['url'])
 
-    # 保存二维码
-    with open('{}/qrcode.jpg'.format(new_path), 'wb') as f:
-        creat_qrcode.save(f)
-    print("已在本目录下生成登录二维码,用手机打开B站扫码登录")
-    print()
+        # 保存二维码
+        with open('{}/qrcode.jpg'.format(new_path), 'wb') as f:
+            creat_qrcode.save(f)
+        print("已在本目录下生成登录二维码,用手机打开B站扫码登录")
+        print()
+
+    elif choose_type == "2":
+        # 输出链接
+        print("请在浏览器输入链接登录：" + loginInfo['data']['url'])
+        print()
+    elif choose_type == "4":
+        print("请扫描二维码登录：")
+        qrcode_terminal.draw(loginInfo['data']['url'])
+        print("或打开此链接登录：" + loginInfo['data']['url'])
+        print()
+        print("或扫描本目录下的 qrcode_login.jpg 登录")
+        # 生成二维码
+        creat_qrcode = qrcode.make(loginInfo['data']['url'])
+        # 保存二维码
+        with open('{}/qrcode_login.jpg'.format(new_path), 'wb') as f:
+            creat_qrcode.save(f)
+        print()
 
     # 校验
     while True:
-        pollInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/poll', params=tvsign({
+        pollInfo = requests.post('https://passport.bilibili.com/x/passport-tv-login/qrcode/poll',
+        params=tvsign({
             'auth_code': loginInfo['data']['auth_code'],
             'local_id': '0',
             'ts': int(time.time())
-        })).json()
+            })).json()
 
         if pollInfo['code'] == 0:
             loginData = pollInfo['data']
@@ -110,9 +122,43 @@ elif choose_type == "2":
             print('未知错误！')
             print()
             raise
+    if choose_type == "4":
+        saveInfo = {
+            'update_time': int(time.time() + 0.5),
+            'token_info': loginData['token_info'],
+            'cookie_info': loginData['cookie_info']
+        }
+        with open('info.txt', 'w+') as f:
+            f.write(json.dumps(saveInfo, ensure_ascii=False, separators=(',', ':')))
+            f.close()
+            print("文件已保存在本目录下的 info.txt 中")
+            print("其中 mid 为 UID ，access_token 为 ACCESS_KEY")
+            print()
+            input("按回车键退出此程序")
+            sys.exit()
+    else:
+        pass
+elif choose_type == "3":
+    UID = input(">>> UID：")
+    print()
+    ACCESS_KEY = input(">>> ACCESS_KEY：")
+    print()
+elif choose_type == "5":
+    print("aristorechina(https://github.com/aristorechina/NFT_auto)")
+    print("XiaoMiku01(https://github.com/XiaoMiku01/custom_bilibili_nft)")
+    print("cibimo(https://github.com/cibimo/bilibiliLogin)")
+    print()
+    input("按回车键退出程序")
+    sys.exit()
 else:
-    input("输入序号不正确，按任意键退出")
-    exit()
+    input("输入序号不正确，按回车键退出")
+    sys.exit()
+
+# 头像所在目录
+if os.path.exists(images.format(new_path)):
+    FACE_PATH = images.format(new_path)
+else:
+    pass
 
 # 选择需要的卡片种类
 card_type = str(input(

@@ -7,20 +7,9 @@
 
 ## 安装依赖库
 ```bash
-pip install Pillow
+pip install -r requirements.txt
 ```  
-```bash
-pip install qrcode
-```  
-```bash
-pip install requests
-```  
-```bash
-pip install typing
-```  
-```bash
-pip install requests_toolbelt
-```
+
 ## 参考的相关仓库
 [https://github.com/aristorechina/NFT_auto](https://github.com/aristorechina/NFT_auto)  
 [https://github.com/XiaoMiku01/custom_bilibili_nft](https://github.com/XiaoMiku01/custom_bilibili_nft)  

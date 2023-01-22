@@ -22,6 +22,7 @@ pip install typing
 pip install requests_toolbelt
 ```
 ## 参考的相关仓库
-[https://github.com/aristorechina/NFT_auto](https://github.com/aristorechina/NFT_auto)
-[https://github.com/XiaoMiku01/custom_bilibili_nft](https://github.com/XiaoMiku01/custom_bilibili_nft)
-[https://github.com/cibimo/bilibiliLogin](https://github.com/cibimo/bilibiliLogin)
+[https://github.com/aristorechina/NFT_auto](https://github.com/aristorechina/NFT_auto)  
+[https://github.com/XiaoMiku01/custom_bilibili_nft](https://github.com/XiaoMiku01/custom_bilibili_nft)  
+[https://github.com/cibimo/bilibiliLogin](https://github.com/cibimo/bilibiliLogin)  
+ 

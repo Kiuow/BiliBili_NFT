@@ -3,6 +3,10 @@
 1.下载 [Release](https://github.com/Kiuow/BiliBili_NFT/releases) 打包的文件（动手能力强的也可自行配置环境使用）  
 2.运行 `BilBili_Auto_NFT.exe`   
 3.根据提示完成操作即可  
+- 若选择`二维码登录` ，请扫描程序目录下名为`qrcode.jpg`的二维码
+- 若选择`链接登录`，请复制程序生成的链接到浏览器登录
+- 若选择`密匙登录`，请按程序指引输入`UID`和`ACCESS_KEY`登录
+- 若选择`获取ACCESS_KEY`，请扫描程序内生成的二维码或程序目录下名为`qrcode_login.jpg`的二维码，或选择链接登录
 ## NFT相关ID
    - SNH48荣耀时刻数字写真集:1
    - 胶囊计划数字典藏集:4

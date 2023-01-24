@@ -3,7 +3,6 @@
 
 import qrcode
 import qrcode_terminal
-import json
 import time
 import requests
 from urllib.parse import urlencode
@@ -123,16 +122,11 @@ if choose_type == "1" or choose_type == "2" or choose_type == "4":
             print()
             raise
     if choose_type == "4":
-        saveInfo = {
-            'update_time': int(time.time() + 0.5),
-            'token_info': loginData['token_info'],
-            'cookie_info': loginData['cookie_info']
-        }
-        with open('info.txt', 'w+') as f:
-            f.write(json.dumps(saveInfo, ensure_ascii=False, separators=(',', ':')))
+        with open('user_info.txt', 'w+') as f:
+            f.write("UID：" + str(loginData['mid']) + "\n")
+            f.write("ACCESS_KEY：" + str(loginData['access_token']) + "\n")
             f.close()
-            print("文件已保存在本目录下的 info.txt 中")
-            print("其中 mid 为 UID ，access_token 为 ACCESS_KEY")
+            print("文件已保存在本目录下的 user_info.txt 中")
             print()
             input("按回车键退出此程序")
             sys.exit()

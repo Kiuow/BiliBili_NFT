@@ -1,6 +1,6 @@
 ---
 ## 使用方法
-1.下载[Release](https://github.com/Kiuow/BiliBili_NFT/releases)打包的文件（动手能力强的也可自行配置环境使用）  
+1.下载 [Release] (https://github.com/Kiuow/BiliBili_NFT/releases)打包的文件（动手能力强的也可自行配置环境使用）  
 2.运行 `BilBili_Auto_NFT.exe`   
 3.根据提示完成操作即可  
 ## 注意

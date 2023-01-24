@@ -1,8 +1,22 @@
 ---
-## 使用方法
-1.下载 [Release] (https://github.com/Kiuow/BiliBili_NFT/releases)打包的文件（动手能力强的也可自行配置环境使用）  
+## 食用方法
+1.下载 [Release](https://github.com/Kiuow/BiliBili_NFT/releases) 打包的文件（动手能力强的也可自行配置环境使用）  
 2.运行 `BilBili_Auto_NFT.exe`   
 3.根据提示完成操作即可  
+## NFT相关ID
+   - SNH48荣耀时刻数字写真集:1
+   - 胶囊计划数字典藏集:4
+   - 天官赐福动画2周年数字典藏:5
+   - A-AKB48TSH四周年数字集换卡:6
+   - B-AKB48TSH四周年数字集换卡:7
+   - C-AKB48TSH四周年数字集换卡:8
+   - D-AKB48TSH四周年数字集换卡:9
+   - E-AKB48TSH四周年数字集换卡:10
+   - F-AKB48TSH四周年数字集换卡:11
+   - G-AKB48TSH四周年数字集换卡:12
+   - H-AKB48TSH四周年数字集换卡:13
+   - 三体动画数字周边:14
+   - 2022百大UP主数字卡集:18
 ## 注意
 1.此版本当前仅支持 **X64位** 操作系统，暂不支持 **X86位** 操作系统  
 2.[Release](https://github.com/Kiuow/BiliBili_NFT/releases)下的打包程序仅支持 Windows 操作系统  
